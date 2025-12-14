@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Face Attendance System</title>
+</head>
+<body>
+    <h2>Deep Learning Face Attendance System</h2>
+
+    <p>
+        This project uses FaceNet and MTCNN to recognize faces
+        and mark attendance automatically.  
+        Real-time recognition runs locally due to webcam constraints.
+    </p>
+
+    <h3>Sample Attendance Records</h3>
+
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Time</th>
+        </tr>
+        {% for r in records %}
+        <tr>
+            <td>{{ r.Name }}</td>
+            <td>{{ r.Date }}</td>
+            <td>{{ r.Time }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p>
+        <b>GitHub:</b> 
+        <a href="https://github.com/YOUR_USERNAME/Face_Attendance_System">
+            View Source Code
+        </a>
+    </p>
+</body>
+</html>
