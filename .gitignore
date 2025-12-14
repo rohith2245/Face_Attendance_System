@@ -1,0 +1,6 @@
+venv/
+__pycache__/
+*.pyc
+attendance/attendance.csv
+embeddings/embeddings.pkl
+data/raw_faces/
