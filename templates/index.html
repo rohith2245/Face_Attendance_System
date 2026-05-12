@@ -1,39 +1,197 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Face Attendance System</title>
+
+    <title>AI Face Attendance System</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
 </head>
+
 <body>
-    <h2>Deep Learning Face Attendance System</h2>
 
-    <p>
-        This project uses FaceNet and MTCNN to recognize faces
-        and mark attendance automatically.  
-        Real-time recognition runs locally due to webcam constraints.
-    </p>
+<div class="sidebar">
 
-    <h3>Sample Attendance Records</h3>
+    <h2 class="logo">AI ATTEND</h2>
 
-    <table border="1">
-        <tr>
-            <th>Name</th>
-            <th>Date</th>
-            <th>Time</th>
-        </tr>
-        {% for r in records %}
-        <tr>
-            <td>{{ r.Name }}</td>
-            <td>{{ r.Date }}</td>
-            <td>{{ r.Time }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <a href="/">
+        <div class="nav-item active">
+            Dashboard
+        </div>
+    </a>
 
-    <p>
-        <b>GitHub:</b> 
-        <a href="https://github.com/YOUR_USERNAME/Face_Attendance_System">
-            View Source Code
-        </a>
-    </p>
+    <a href="/mark_attendance">
+        <div class="nav-item">
+            Mark Attendance
+        </div>
+    </a>
+
+    <a href="/register">
+        <div class="nav-item">
+            Register Student
+        </div>
+    </a>
+
+    <a href="/train">
+        <div class="nav-item">
+            Train Model
+        </div>
+    </a>
+
+</div>
+
+
+<div class="main-content">
+
+<h1 class="title">AI Face Attendance Dashboard</h1>
+
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+
+<div class="flash-container">
+
+{% for category, message in messages %}
+
+<div class="flash {{category}}">
+{{message}}
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endif %}
+{% endwith %}
+
+
+<div class="stats-container">
+
+<div class="stat-card">
+    <h2>Camera</h2>
+    <p>Active</p>
+</div>
+
+<div class="stat-card">
+    <h2>AI Model</h2>
+    <p>Ready</p>
+</div>
+
+<div class="stat-card">
+    <h2>Attendance</h2>
+    <p>Live System</p>
+</div>
+
+</div>
+
+
+<div class="dashboard-grid">
+
+<div class="camera-section">
+
+<h2>Live Camera</h2>
+
+<div class="camera-wrapper">
+<img src="/video" class="camera">
+</div>
+
+<div class="buttons">
+
+<a href="/mark_attendance">
+<button class="btn green">
+Mark Attendance
+</button>
+</a>
+
+<a href="/register">
+<button class="btn blue">
+Register Student
+</button>
+</a>
+
+<a href="/train">
+<button class="btn orange">
+Train Model
+</button>
+</a>
+
+</div>
+
+</div>
+
+
+<div class="records-section">
+
+<h2>Recent Attendance Records</h2>
+
+<div class="records-box">
+
+{% for date, data in grouped %}
+
+<h3>{{date}}</h3>
+
+<table>
+
+<tr>
+<th>Name</th>
+<th>Time</th>
+</tr>
+
+{% for row in data.itertuples() %}
+
+<tr>
+<td>{{row.Name}}</td>
+<td>{{row.Time}}</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function checkTraining(){
+
+fetch("/training_status")
+.then(res => res.json())
+.then(data => {
+
+if(data.status === "done"){
+
+const notification = document.createElement("div")
+
+notification.className = "train-popup"
+
+notification.innerHTML = "Training Completed Successfully"
+
+document.body.appendChild(notification)
+
+setTimeout(()=>{
+notification.remove()
+window.location.href="/"
+},3000)
+
+}
+
+})
+
+}
+
+setInterval(checkTraining,5000)
+
+</script>
+
 </body>
+
 </html>

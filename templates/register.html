@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Register Student</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <h2 class="logo">AI ATTEND</h2>
+
+    <a href="/">
+        <div class="nav-item">
+            Dashboard
+        </div>
+    </a>
+
+    <a href="/register">
+        <div class="nav-item active">
+            Register Student
+        </div>
+    </a>
+
+</div>
+
+
+<div class="main-content">
+
+<h1 class="title">Student Registration</h1>
+
+<div class="register-card">
+
+<video id="video" autoplay></video>
+
+<div class="form-section">
+
+<input type="text"
+id="name"
+placeholder="Enter Student Name">
+
+<button onclick="capture()"
+class="btn green">
+Capture & Register
+</button>
+
+</div>
+
+<form id="captureForm"
+method="POST"
+action="/register">
+
+<input type="hidden"
+name="image"
+id="imageInput">
+
+<input type="hidden"
+name="name"
+id="nameInput">
+
+</form>
+
+</div>
+
+</div>
+
+
+<script>
+
+const video = document.getElementById("video")
+
+navigator.mediaDevices.getUserMedia({
+video:true
+})
+.then(stream=>{
+video.srcObject = stream
+})
+
+function capture(){
+
+const canvas = document.createElement("canvas")
+
+canvas.width = video.videoWidth
+canvas.height = video.videoHeight
+
+const ctx = canvas.getContext("2d")
+
+ctx.drawImage(video,0,0)
+
+const image = canvas.toDataURL("image/jpeg")
+
+document.getElementById("imageInput").value = image
+
+document.getElementById("nameInput").value =
+document.getElementById("name").value
+
+document.getElementById("captureForm").submit()
+
+}
+
+</script>
+
+</body>
+
+</html>
